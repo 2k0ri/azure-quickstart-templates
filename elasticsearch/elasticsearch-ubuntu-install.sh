@@ -105,7 +105,7 @@ while getopts :n:d:v:mxyzsh optname; do
     s) #use OS striped disk volumes
       OS_STRIPED_DISK=1
       ;;
-    d) #place data on local resource disk
+    l) #place data on local resource disk
       NON_DURABLE=1
       ;;
     h) #show help
@@ -186,10 +186,6 @@ install_es()
 #NOTE: These first three could be changed to run in parallel
 #      Future enhancement - (export the functions and use background/wait to run in parallel)
 
-#Format data disks (Find data disks then partition, format, and mount them as seperate drives)
-#------------------------
-bash vm-disk-utils-0.1.sh
-
 #Install Oracle Java
 #------------------------
 install_java
@@ -199,23 +195,34 @@ install_java
 #-----------------------
 install_es
 
-# Prepare configuration information
-# Configure permissions on data disks for elasticsearch user:group
-#--------------------------
-DATAPATH_CONFIG=""
-if [ -d "${DATA_BASE}" ]; then
-    for D in `find /datadisks/ -mindepth 1 -maxdepth 1 -type d`
-    do
-        #Configure disk permissions and folder for storage
-        setup_data_disk ${D}
-        # Add to list for elasticsearch configuration
-        DATAPATH_CONFIG+="$D/elasticsearch/data,"
-    done
-    #Remove the extra trailing comma
-    DATAPATH_CONFIG="${DATAPATH_CONFIG%?}"
+
+if [ ${NON_DURABLE} -ne 0 ]; then
+    ln -s /mnt /datadisks/data0
+    setup_data_disk /datadisks/data0
+    DATAPATH_CONFIG="/datadisks/data0/elasticsearch/data"
 else
-    #If we do not find folders/disks in our data disk mount directory then use the defaults
-    log "Configured data directory does not exist for ${HOSTNAME} using defaults"
+    #Format data disks (Find data disks then partition, format, and mount them as seperate drives)
+    #------------------------
+    bash vm-disk-utils-0.1.sh -s
+
+    # Prepare configuration information
+    # Configure permissions on data disks for elasticsearch user:group
+    #--------------------------
+    DATAPATH_CONFIG=""
+    if [ -d "${DATA_BASE}" ]; then
+        for D in `find /datadisks/ -mindepth 1 -maxdepth 1 -type d`
+        do
+            #Configure disk permissions and folder for storage
+            setup_data_disk ${D}
+            # Add to list for elasticsearch configuration
+            DATAPATH_CONFIG+="$D/elasticsearch/data,"
+        done
+        #Remove the extra trailing comma
+        DATAPATH_CONFIG="${DATAPATH_CONFIG%?}"
+    else
+        #If we do not find folders/disks in our data disk mount directory then use the defaults
+        log "Configured data directory does not exist for ${HOSTNAME} using defaults"
+    fi
 fi
 
 #expand_staticip_range "$IP_RANGE"
@@ -286,7 +293,7 @@ echo "vm.max_map_count = 262144" >> /etc/sysctl.conf
 
 # Configure Environment
 #----------------------
-#/etc/default/elasticseach
+#/etc/default/elasticsearch
 #Update HEAP Size in this configuration or in upstart service
 #Set Elasticsearch heap size to 50% of system memory
 #TODO: Move this to an init.d script so we can handle instance size increases
