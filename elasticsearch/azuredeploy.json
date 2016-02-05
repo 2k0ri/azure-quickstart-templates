@@ -95,11 +95,19 @@
     },
     "vmSizeClientNodes": {
       "type": "string",
-      "defaultValue": "Standard_D2",
+      "defaultValue": "Standard_A1",
       "allowedValues": [
-        "Standard_D2",
-        "Standard_D3",
-        "Standard_D4",
+        "Standard_D1_v2",
+        "Standard_D2_v2",
+        "Standard_D11_v2",
+        "Standard_D3_v2",
+        "Standard_D12_v2",
+        "Standard_D4_v2",
+        "Standard_D13_v2",
+        "Standard_D5_v2",
+        "Standard_D14_v2",
+        "Standard_A0",
+        "Standard_A1",
         "Standard_A2",
         "Standard_A3",
         "Standard_A4",
@@ -117,11 +125,19 @@
     },
     "vmSizeMasterNodes": {
       "type": "string",
-      "defaultValue": "Standard_D2",
+      "defaultValue": "Standard_A1",
       "allowedValues": [
-        "Standard_D2",
-        "Standard_D3",
-        "Standard_D4",
+        "Standard_D1_v2",
+        "Standard_D2_v2",
+        "Standard_D11_v2",
+        "Standard_D3_v2",
+        "Standard_D12_v2",
+        "Standard_D4_v2",
+        "Standard_D13_v2",
+        "Standard_D5_v2",
+        "Standard_D14_v2",
+        "Standard_A0",
+        "Standard_A1",
         "Standard_A2",
         "Standard_A3",
         "Standard_A4",
@@ -139,11 +155,18 @@
     },
     "vmSizeDataNodes": {
       "type": "string",
-      "defaultValue": "Standard_D2",
+      "defaultValue": "Standard_D11_v2",
       "allowedValues": [
-        "Standard_D2",
-        "Standard_D3",
-        "Standard_D4",
+        "Standard_D1_v2",
+        "Standard_D2_v2",
+        "Standard_D11_v2",
+        "Standard_D3_v2",
+        "Standard_D12_v2",
+        "Standard_D4_v2",
+        "Standard_D13_v2",
+        "Standard_D5_v2",
+        "Standard_D14_v2",
+        "Standard_A1",
         "Standard_A2",
         "Standard_A3",
         "Standard_A4",
@@ -404,22 +427,47 @@
     },
     "osSettings": "[variables(concat(parameters('OS'), 'Settings'))]",
     "dataSkuSettings": {
-      "Standard_D1": {
+      "Standard_D1_v2": {
         "dataDisks":2,
         "nodesPerStorageAccount":6,
         "storageAccountType":"Standard_LRS"
       },
-      "Standard_D2": {
+      "Standard_D2_v2": {
         "dataDisks":4,
         "nodesPerStorageAccount":4,
         "storageAccountType":"Standard_LRS"
       },
-      "Standard_D3": {
+      "Standard_D11_v2": {
+        "dataDisks":4,
+        "nodesPerStorageAccount":4,
+        "storageAccountType":"Standard_LRS"
+      },
+      "Standard_D3_v2": {
         "dataDisks":8,
         "nodesPerStorageAccount":3,
         "storageAccountType":"Standard_LRS"
       },
-      "Standard_D4": {
+      "Standard_D12_v2": {
+        "dataDisks":8,
+        "nodesPerStorageAccount":3,
+        "storageAccountType":"Standard_LRS"
+      },
+      "Standard_D4_v2": {
+        "dataDisks":16,
+        "nodesPerStorageAccount":2,
+        "storageAccountType":"Standard_LRS"
+      },
+      "Standard_D13_v2": {
+        "dataDisks":16,
+        "nodesPerStorageAccount":2,
+        "storageAccountType":"Standard_LRS"
+      },
+      "Standard_D5_v2": {
+        "dataDisks":16,
+        "nodesPerStorageAccount":2,
+        "storageAccountType":"Standard_LRS"
+      },
+      "Standard_D14_v2": {
         "dataDisks":16,
         "nodesPerStorageAccount":2,
         "storageAccountType":"Standard_LRS"
@@ -453,6 +501,16 @@
         "dataDisks":16,
         "nodesPerStorageAccount":2,
         "storageAccountType":"Premium_LRS"
+      },
+      "Standard_A0": {
+        "dataDisks":2,
+        "nodesPerStorageAccount":6,
+        "storageAccountType":"Standard_LRS"
+      },
+      "Standard_A1": {
+        "dataDisks":2,
+        "nodesPerStorageAccount":6,
+        "storageAccountType":"Standard_LRS"
       },
       "Standard_A2": {
         "dataDisks":4,
